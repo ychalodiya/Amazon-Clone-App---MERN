@@ -9,4 +9,9 @@ body {
 
 main {
 	margin: 1rem;
+	flex: 1;
+}
+
+.site-container {
+	min-height: 100vh;
 }
