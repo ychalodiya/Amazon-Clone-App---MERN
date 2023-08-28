@@ -39,7 +39,7 @@ export default function Home() {
 
 	return (
 		<div>
-			<h1>Featured products</h1>
+			<h2>Featured products</h2>
 			<div className="products">
 				{loading ? (
 					<div>'Loading...'</div>
