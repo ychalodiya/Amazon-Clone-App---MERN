@@ -3,9 +3,10 @@ import axios from 'axios';
 import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ProductItem from './ProductItem';
+import ProductCard from './ProductCard';
 
-import './Home.css';
+import './ProductList.css';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -43,17 +44,20 @@ export default function Home() {
 
 	return (
 		<div>
+			<Helmet>
+				<title>Amazon Marketplace</title>
+			</Helmet>
 			<h2>Featured products</h2>
 			<div className="products">
 				{loading ? (
-					<div>'Loading...'</div>
+					<div class="spinner-border"></div>
 				) : error ? (
 					<div>{error}</div>
 				) : (
 					<Row>
 						{products.map((product) => (
 							<Col sm={6} md={4} lg={3} className="mb-3" key={product.slug}>
-								<ProductItem product={product} />
+								<ProductCard product={product} />
 							</Col>
 						))}
 					</Row>

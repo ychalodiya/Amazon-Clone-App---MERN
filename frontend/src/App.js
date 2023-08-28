@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Home from './Components/Home';
+import ProductList from './Components/ProductList';
 import Product from './Components/Product';
 import { Navbar, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -21,8 +21,8 @@ function App() {
 				<main>
 					<Container>
 						<Routes>
-							<Route path="/product/:slug" element={<Product />} />
-							<Route path="/" element={<Home />} />
+							<Route path="/api/products/slug/:slug" element={<Product />} />
+							<Route path="/" element={<ProductList />} />
 						</Routes>
 					</Container>
 				</main>
