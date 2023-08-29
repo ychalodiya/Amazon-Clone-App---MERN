@@ -52,10 +52,17 @@ export default function Product() {
 	}, [slug]);
 
 	const { state, dispatch: ctxDispatch } = useContext(Store);
-
-	const addToCartHandler = () => {
-		console.log(product);
-		ctxDispatch({ type: 'Add_To_Cart', payload: { ...product, quantity: 1 } });
+	const addToCartHandler = async () => {
+		const productExist = state.cart.cartItems.find(
+			(item) => item._id === product._id
+		);
+		const quantity = productExist ? productExist.quantity + 1 : 1;
+		const { data } = await axios.get(`/api/products/${product._id}`);
+		if (data.countInStock < quantity) {
+			window.alert('Sorry, product is out of stock.');
+			return;
+		}
+		ctxDispatch({ type: 'Add_To_Cart', payload: { ...product, quantity } });
 	};
 
 	return (
