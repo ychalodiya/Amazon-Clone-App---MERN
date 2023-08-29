@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Rating from './Rating';
@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import { Button, Card, ListGroup } from 'react-bootstrap';
 import MessageBox from './MessageBox';
 import { getError } from '../utils';
+import { Store } from './Store';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -49,6 +50,13 @@ export default function Product() {
 	useEffect(() => {
 		fetchProducts();
 	}, [slug]);
+
+	const { state, dispatch: ctxDispatch } = useContext(Store);
+
+	const addToCartHandler = () => {
+		console.log(product);
+		ctxDispatch({ type: 'Add_To_Cart', payload: { ...product, quantity: 1 } });
+	};
 
 	return (
 		<div>
@@ -106,9 +114,11 @@ export default function Product() {
 												<Col>Status: </Col>
 												<Col>
 													{product.countInStock > 0 ? (
-														<span class="badge bg-success">Available</span>
+														<span className="badge bg-success">Available</span>
 													) : (
-														<span class="badge bg-danger">Out of stock</span>
+														<span className="badge bg-danger">
+															Out of stock
+														</span>
 													)}
 												</Col>
 											</Row>
@@ -116,7 +126,9 @@ export default function Product() {
 										{product.countInStock > 0 && (
 											<ListGroup.Item>
 												<div className="d-grid">
-													<Button variant="primary">Add to Cart</Button>
+													<Button onClick={addToCartHandler} variant="primary">
+														Add to Cart
+													</Button>
 												</div>
 											</ListGroup.Item>
 										)}

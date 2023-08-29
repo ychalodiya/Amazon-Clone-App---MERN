@@ -5,11 +5,11 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductCard from './ProductCard';
 
-import './ProductList.css';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from './LoadingBox';
 import MessageBox from './MessageBox';
 import { getError } from '../utils';
+import './ProductList.css';
 
 const reducer = (state, action) => {
 	switch (action.type) {
