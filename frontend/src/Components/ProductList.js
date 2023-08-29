@@ -7,6 +7,9 @@ import ProductCard from './ProductCard';
 
 import './ProductList.css';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from './LoadingBox';
+import MessageBox from './MessageBox';
+import { getError } from '../utils';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -34,7 +37,11 @@ export default function Home() {
 			const result = await axios.get('/api/products');
 			dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
 		} catch (err) {
-			dispatch({ type: 'FETCH_FAIL', payload: err.message });
+			const message = getError(err);
+			dispatch({
+				type: 'FETCH_FAIL',
+				payload: message,
+			});
 		}
 	};
 
@@ -50,9 +57,14 @@ export default function Home() {
 			<h2>Featured products</h2>
 			<div className="products">
 				{loading ? (
-					<div class="spinner-border"></div>
+					<LoadingBox />
 				) : error ? (
-					<div>{error}</div>
+					<>
+						<Helmet>
+							<title> {error} </title>
+						</Helmet>
+						<MessageBox variant="danger">{error}</MessageBox>
+					</>
 				) : (
 					<Row>
 						{products.map((product) => (

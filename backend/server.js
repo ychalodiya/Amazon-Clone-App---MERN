@@ -13,7 +13,7 @@ app.get('/api/products/slug/:slug', (req, res) => {
 	if (product) {
 		res.send(product);
 	} else {
-		res.status(404).send({ message: 'Product is not available.' });
+		res.status(404).send({ message: 'Product is not available' });
 	}
 });
 

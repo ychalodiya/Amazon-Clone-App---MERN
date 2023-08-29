@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import Rating from './Rating';
+import LoadingBox from './LoadingBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Rating from './Rating';
 import { Button, Card, ListGroup } from 'react-bootstrap';
-import { Helmet } from 'react-helmet-async';
+import MessageBox from './MessageBox';
+import { getError } from '../utils';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -33,10 +36,13 @@ export default function Product() {
 		dispatch({ type: 'FETCH_REQUEST' });
 		try {
 			const result = await axios.get(`/api/products/slug/${slug}`);
-			console.log(result);
 			dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
 		} catch (err) {
-			dispatch({ type: 'FETCH_FAIL', payload: err.message });
+			const message = getError(err);
+			dispatch({
+				type: 'FETCH_FAIL',
+				payload: message,
+			});
 		}
 	};
 
@@ -47,9 +53,14 @@ export default function Product() {
 	return (
 		<div>
 			{loading ? (
-				<div class="spinner-border"></div>
+				<LoadingBox />
 			) : error ? (
-				<div>{error}</div>
+				<>
+					<Helmet>
+						<title> {error} </title>
+					</Helmet>
+					<MessageBox variant="danger">{error}</MessageBox>
+				</>
 			) : (
 				<div className="mt-3">
 					<Row>
