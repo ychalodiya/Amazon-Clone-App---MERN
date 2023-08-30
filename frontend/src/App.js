@@ -1,11 +1,12 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import ProductList from './Components/ProductList';
-import Product from './Components/Product';
+import ProductList from './Pages/ProductList';
+import Product from './Pages/Product';
 import { Navbar, Container, Nav, Badge, Card } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useContext } from 'react';
 import { Store } from './Components/Store';
+import Cart from './Pages/Cart';
 
 function App() {
 	const { state } = useContext(Store);
@@ -43,6 +44,7 @@ function App() {
 					<Container>
 						<Routes>
 							<Route path="/api/products/slug/:slug" element={<Product />} />
+							<Route path="/cart" element={<Cart />} />
 							<Route path="/" element={<ProductList />} />
 						</Routes>
 					</Container>

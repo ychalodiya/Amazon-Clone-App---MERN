@@ -1,15 +1,15 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useReducer } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import Rating from './Rating';
-import LoadingBox from './LoadingBox';
+import Rating from '../Components/Rating';
+import LoadingBox from '../Components/LoadingBox';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button, Card, ListGroup } from 'react-bootstrap';
-import MessageBox from './MessageBox';
+import MessageBox from '../Components/MessageBox';
 import { getError } from '../utils';
-import { Store } from './Store';
+import { Store } from '../Components/Store';
 
 const reducer = (state, action) => {
 	switch (action.type) {
@@ -32,6 +32,7 @@ export default function Product() {
 		error: '',
 		product: [],
 	});
+	const navigate = useNavigate();
 
 	const fetchProducts = async () => {
 		dispatch({ type: 'FETCH_REQUEST' });
@@ -63,6 +64,7 @@ export default function Product() {
 			return;
 		}
 		ctxDispatch({ type: 'Add_To_Cart', payload: { ...product, quantity } });
+		navigate('/cart');
 	};
 
 	return (

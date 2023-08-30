@@ -3,11 +3,11 @@ import axios from 'axios';
 import logger from 'use-reducer-logger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ProductCard from './ProductCard';
+import ProductCard from '../Components/ProductCard';
 
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from './LoadingBox';
-import MessageBox from './MessageBox';
+import LoadingBox from '../Components/LoadingBox';
+import MessageBox from '../Components/MessageBox';
 import { getError } from '../utils';
 import './ProductList.css';
 
