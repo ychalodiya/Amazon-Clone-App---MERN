@@ -9,8 +9,11 @@ import axios from 'axios';
 export default function ProductItem(props) {
 	const { product } = props;
 	const { state, dispatch: ctxDispatch } = useContext(Store);
+	const {
+		cart: { cartItems },
+	} = state;
 
-	const addToCartHandler = async () => {
+	const addToCartHandler = async (product) => {
 		const productExist = state.cart.cartItems.find(
 			(item) => item._id === product._id
 		);
@@ -20,11 +23,7 @@ export default function ProductItem(props) {
 			window.alert('Sorry, product is out of stock.');
 			return;
 		}
-
-		ctxDispatch({
-			type: 'Add_To_Cart',
-			payload: { ...product, quantity },
-		});
+		ctxDispatch({ type: 'Add_To_Cart', payload: { ...product, quantity } });
 	};
 
 	return (
@@ -38,7 +37,15 @@ export default function ProductItem(props) {
 				</Link>
 				<Rating rating={product.rating} numReviews={product.numReviews} />
 				<Card.Text>${product.price}</Card.Text>
-				<Button onClick={addToCartHandler}>Add to cart</Button>
+				{product.countInStock === 0 ? (
+					<Button variant="light" disabled>
+						Out of Stock
+					</Button>
+				) : (
+					<Button onClick={addToCartHandler.bind(this, product)}>
+						Add to cart
+					</Button>
+				)}
 			</Card.Body>
 		</Card>
 	);
