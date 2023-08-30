@@ -1,30 +1,25 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import data from './data.js';
+import seedRouter from './routes/seedRoutes.js';
+import productRouter from './routes/productRoutes.js';
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.get('/api/products', (req, res) => {
-	res.send(data.products);
-});
+mongoose
+	.connect(process.env.MONGODB_URI)
+	.then(() => {
+		console.log('Connected to MongoDB database');
+	})
+	.catch((err) => {
+		console.log(err.message);
+	});
 
-app.get('/api/products/slug/:slug', (req, res) => {
-	const product = data.products.find((item) => item.slug === req.params.slug);
-	if (product) {
-		res.send(product);
-	} else {
-		res.status(404).send({ message: 'Product is not available' });
-	}
-});
-
-app.get('/api/products/:id', (req, res) => {
-	const product = data.products.find((item) => item._id === req.params.id);
-	if (product) {
-		res.send(product);
-	} else {
-		res.status(404).send({ message: 'Product is not available' });
-	}
-});
+app.use('/api/seed', seedRouter);
+app.use('/api/products', productRouter);
 
 app.listen(PORT, () => {
 	console.log('Server is listening at ' + PORT);
