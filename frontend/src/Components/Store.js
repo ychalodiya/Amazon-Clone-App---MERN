@@ -3,6 +3,9 @@ import { createContext, useReducer } from 'react';
 export const Store = createContext();
 
 const initialState = {
+	userInfo: localStorage.getItem('userInfo')
+		? JSON.parse(localStorage.getItem('userInfo'))
+		: null,
 	cart: {
 		cartItems: localStorage.getItem('cartItems')
 			? JSON.parse(localStorage.getItem('cartItems'))
@@ -30,6 +33,7 @@ function reducer(state, action) {
 					cartItems,
 				},
 			};
+
 		case 'REMOVE_FROM_CART':
 			const newCartItems = state.cart.cartItems.filter(
 				(item) => item._id !== action.payload._id
@@ -43,6 +47,14 @@ function reducer(state, action) {
 					cartItems: newCartItems,
 				},
 			};
+
+		case 'USER_SIGNIN':
+			localStorage.setItem('userInfo', JSON.stringify(action.payload));
+			return { ...state, userInfo: action.payload };
+
+		case 'USER_SIGNOUT':
+			localStorage.removeItem('userInfo');
+			return { ...state, userInfo: null };
 
 		default:
 			return state;

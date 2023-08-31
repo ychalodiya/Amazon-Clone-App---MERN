@@ -1,43 +1,70 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import './App.css';
-import ProductList from './Pages/ProductList';
-import Product from './Pages/Product';
-import { Navbar, Container, Nav, Badge, Card } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
 import { useContext } from 'react';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Navbar, Container, Nav, Badge, NavDropdown } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Store } from './Components/Store';
+import Product from './Pages/Product';
+import ProductList from './Pages/ProductList';
 import Cart from './Pages/Cart';
 import Signin from './Pages/Signin';
+import './App.css';
 
 function App() {
-	const { state } = useContext(Store);
+	const { state, dispatch: ctxDispatch } = useContext(Store);
+	const { cart, userInfo } = state;
+	const signoutHandler = () => {
+		ctxDispatch({ type: 'USER_SIGNOUT' });
+	};
+
 	return (
 		<BrowserRouter>
 			<div className="d-flex flex-column site-container">
+				<ToastContainer position="bottom-center" limit={1} />
 				<header>
 					<Navbar bg="dark" variant="dark">
 						<Container>
 							<LinkContainer to="/">
 								<Navbar.Brand>Amazon Marketplace</Navbar.Brand>
 							</LinkContainer>
-							<Card className="bg-dark" border="secondary">
-								<Card.Body>
-									<Nav className="ms-auto">
-										<Link to="/cart" className="nav-link">
-											Cart{` `}
-											{state.cart.cartItems.length > 0 && (
-												<Badge pill bg="danger">
-													{state.cart.cartItems.reduce(
-														(accumulator, currentItem) =>
-															accumulator + currentItem.quantity,
-														0
-													)}
-												</Badge>
+
+							<Nav className="ms-auto">
+								<Link to="/cart" className="nav-link">
+									Cart{` `}
+									{cart.cartItems.length > 0 && (
+										<Badge pill bg="danger">
+											{cart.cartItems.reduce(
+												(accumulator, currentItem) =>
+													accumulator + currentItem.quantity,
+												0
 											)}
+										</Badge>
+									)}
+								</Link>
+								{userInfo ? (
+									<NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+										<LinkContainer to="/profile">
+											<NavDropdown.Item>User Profile</NavDropdown.Item>
+										</LinkContainer>
+										<LinkContainer to="/orderhistory">
+											<NavDropdown.Item>Order History</NavDropdown.Item>
+										</LinkContainer>
+										<NavDropdown.Divider />
+										<Link
+											to="/signout"
+											className="dropdown-item"
+											onClick={signoutHandler}
+										>
+											Sign Out
 										</Link>
-									</Nav>
-								</Card.Body>
-							</Card>
+									</NavDropdown>
+								) : (
+									<Link to="/signin" className="nav-link">
+										Sign In
+									</Link>
+								)}
+							</Nav>
 						</Container>
 					</Navbar>
 				</header>
