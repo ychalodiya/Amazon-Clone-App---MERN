@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Button, Container, Form, Toast } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-
-import './Signin.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Components/Store';
 import { getError } from '../utils';
+import CheckoutSteps from '../Components/CheckoutSteps';
 
 export default function Signin() {
 	const navigate = useNavigate();
@@ -22,7 +21,7 @@ export default function Signin() {
 
 	const submitHandler = async (e) => {
 		e.preventDefault();
-		console.log(email.current.value);
+
 		try {
 			const { data } = await axios.post('/api/users/signin', {
 				email: email.current.value,
@@ -46,6 +45,7 @@ export default function Signin() {
 			<Helmet>
 				<title>Sign In</title>
 			</Helmet>
+			<CheckoutSteps step1 />
 			<h1 className="my-3">Sign In</h1>
 			<Form onSubmit={submitHandler}>
 				<Form.Group className="mb-3" controlId="email">
