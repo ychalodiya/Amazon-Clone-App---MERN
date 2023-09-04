@@ -6,8 +6,6 @@ import MessageBox from '../Components/MessageBox';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import './Cart.css';
-
 export default function Cart() {
 	const navigate = useNavigate();
 	const { state, dispatch: ctxDispatch } = useContext(Store);

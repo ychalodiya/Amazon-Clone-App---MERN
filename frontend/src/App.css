@@ -2,6 +2,52 @@
 	max-width: 600px;
 }
 
+.img-thumbnail {
+	height: 80px;
+}
+
+.products {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.products .product {
+	border: 1px #404040 solid;
+	margin: 1rem;
+}
+
+.product img {
+	width: 100%;
+	max-width: 400px;
+}
+
+.product-info {
+	padding: 1rem;
+}
+
+.btn-primary {
+	background-color: #f0c040;
+	color: black;
+}
+
+.img-large {
+	max-width: 100%;
+}
+
+.navigation-link {
+	text-decoration: none;
+	cursor: pointer;
+	color: black;
+}
+
+.navigation-link:hover,
+.navigation-link:focus {
+	text-decoration: underline;
+	cursor: pointer;
+	color: black;
+}
+
 .checkout-steps > div {
 	border-bottom: 0.2rem solid #a0a0a0;
 	color: #a0a0a0;

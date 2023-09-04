@@ -9,7 +9,6 @@ import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../Components/LoadingBox';
 import MessageBox from '../Components/MessageBox';
 import { getError } from '../utils';
-import './ProductList.css';
 
 const reducer = (state, action) => {
 	switch (action.type) {
