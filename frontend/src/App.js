@@ -13,6 +13,7 @@ import './App.css';
 import Shipping from './Pages/Shipping';
 import Signup from './Pages/Signup';
 import Payment from './Pages/Payment';
+import PlaceOrder from './Pages/PlaceOrder';
 
 function App() {
 	const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -77,15 +78,18 @@ function App() {
 							<Route path="/api/products/slug/:slug" element={<Product />} />
 							<Route path="/cart" element={<Cart />} />
 							<Route path="/signin" element={<Signin />} />
+							<Route path="/signup" element={<Signup />} />
 							<Route path="/shipping" element={<Shipping />} />
 							<Route path="/payment" element={<Payment />} />
-							<Route path="/signup" element={<Signup />} />
+							<Route path="/placeOrder" element={<PlaceOrder />} />
 							<Route path="/" element={<ProductList />} />
 						</Routes>
 					</Container>
 				</main>
 				<footer>
-					<div className="text-center">All rights reserved.</div>
+					<div className="text-center">
+						{new Date().getFullYear()} All rights reserved.
+					</div>
 				</footer>
 			</div>
 		</BrowserRouter>
