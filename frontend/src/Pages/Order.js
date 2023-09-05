@@ -91,7 +91,6 @@ export default function Order() {
 	const fetchOrder = async () => {
 		try {
 			dispatch({ type: 'FETCH_REQUEST' });
-			console.log('here');
 			const { data } = await axios(`/api/orders/${orderId}`, {
 				headers: {
 					authorization: `Bearer ${userInfo.token}`,
