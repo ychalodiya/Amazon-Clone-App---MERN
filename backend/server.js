@@ -5,6 +5,7 @@ import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import dotenv from 'dotenv';
 import orderRouter from './routes/orderRoutes.js';
+import { isAuth } from './utils.js';
 dotenv.config();
 
 const app = express();
@@ -21,6 +22,10 @@ mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api/keys/paypal', isAuth, (req, res) => {
+	res.send(process.env.PAYPAL_CLIENT_ID || 'SB');
+});
 
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);

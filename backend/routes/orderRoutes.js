@@ -32,11 +32,32 @@ orderRouter.get(
 	isAuth,
 	expressAsyncHandler(async (req, res) => {
 		const order = await Order.findById(req.params.id);
-		console.log(order);
 		if (order) {
 			res.send(order);
 		} else {
 			res.status(404).send({ message: 'Order not found.' });
+		}
+	})
+);
+
+orderRouter.put(
+	'/:id/pay',
+	isAuth,
+	expressAsyncHandler(async (req, res) => {
+		const order = await Order.findById(req.params.id);
+		if (order) {
+			order.isPaid = true;
+			order.paidAt = Date.now();
+			order.paymentResult = {
+				id: req.body.id,
+				status: req.body.status,
+				email_address: req.body.email_address,
+				update_time: req.body.update_time,
+			};
+			const updateOrder = await order.save();
+			res.send({ message: 'Order is paid', order: updateOrder });
+		} else {
+			res.status(401).send({ message: 'Order not found' });
 		}
 	})
 );
