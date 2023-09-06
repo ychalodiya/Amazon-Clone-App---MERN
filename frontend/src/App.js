@@ -16,12 +16,14 @@ import Payment from './Pages/Payment';
 import PlaceOrder from './Pages/PlaceOrder';
 import Order from './Pages/Order';
 import OrderHistory from './Pages/OrderHistory';
+import Profile from './Pages/Profile';
 
 function App() {
 	const { state, dispatch: ctxDispatch } = useContext(Store);
 	const { cart, userInfo } = state;
 	const signoutHandler = () => {
 		ctxDispatch({ type: 'USER_SIGNOUT' });
+		window.location.href = '/signin';
 	};
 
 	return (
@@ -88,6 +90,7 @@ function App() {
 							<Route path="/placeOrder" element={<PlaceOrder />} />
 							<Route path="/orders/:id" element={<Order />} />
 							<Route path="/orderhistory" element={<OrderHistory />} />
+							<Route path="/profile" element={<Profile />} />
 							<Route path="/" element={<ProductList />} />
 						</Routes>
 					</Container>
